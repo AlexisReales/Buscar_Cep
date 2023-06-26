@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Completar</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            background-color: aliceblue;
+            height: 100vh;
+        }
+        .input{
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
+        }
+        #cep{
+            text-align: center;
+        }
+        input{
+            margin: 5px;
+            padding: 8px;
+            border: none;
+            border-bottom: 1px solid #000;
+            color: #111;
+            background-color: transparent;
+            outline: none;
+            border-radius: 10px;
+        }
+        h1{
+            padding: 10px;
+        }
+        button{
+            margin: 10px;
+            padding: 8px;
+            cursor: pointer;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            Auto completar com CEP
+        </h1>
+
+        <input type="number" id="cep" placeholder="CEP">
+        
+        <button onclick="buscaCep()">Procurar</button>
+
+        <div class="input">
+            <input type="text" id="state" readonly placeholder="Estado">
+            <input type="text" id="city" readonly placeholder="Cidade">
+            <input type="text" id="district" readonly placeholder="Bairro">
+            <input type="text" id="address" readonly placeholder="Rua">
+        </div>
+    </div>
+
+    <script>
+        function buscaCep(){
+            const cep = document.getElementById('cep').value
+            const state = document.getElementById('state')
+            const city = document.getElementById('city')
+            const district = document.getElementById('district')
+            const address = document.getElementById('address')
+            let cepValido = cep.substr(0,5) + "-" + cep.substr(5) + ".json"
+            let url = `https://cdn.apicep.com/file/apicep/` + cepValido
+            fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                state.value = `Estado: ${data.state}`
+                city.value = `Cidade: ${data.city}`
+                district.value = `Bairro: ${data.district}`
+                address.value = `Rua: ${data.address}`
+            })
+        }
+    </script>
+</body>
+</html>

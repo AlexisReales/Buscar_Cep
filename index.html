@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Cep</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            background-color: aliceblue;
+            height: 100vh;
+        }
+        h1{
+            padding: 10px;
+        }
+        button{
+            margin: 10px;
+            padding: 8px;
+            cursor: pointer;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 100%;
+        }
+        #cep{
+            outline: none;
+            border: none;
+            padding: 5px;
+            border-bottom: solid 1px #000;
+            background-color: transparent;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            Buscador de Endereço
+        </h1>
+        
+        <div class="itens">
+            <input type="number" id="cep" placeholder="Digite o CEP">
+            <br>
+            <button onclick="buscaCep()">Procurar</button>
+        </div>
+    
+        <div id="result"></div>
+
+        <a href="autocomplete.html">Ir para auto completar</a>
+    </div>
+
+    <script>
+        function buscaCep(){
+            const cep = document.getElementById('cep').value
+            const endereco = document.getElementById('result')
+            let cepValido = cep.substr(0,5) + "-" + cep.substr(5) + ".json"
+            let url = `https://cdn.apicep.com/file/apicep/` + cepValido
+            fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                endereco.innerHTML = `Estado: ${data.state} <br> Cidade: ${data.city} <br>
+                Bairro: ${data.district} <br> Rua: ${data.address}`
+            })
+        }
+    </script>
+</body>
+</html>
